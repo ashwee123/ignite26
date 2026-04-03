@@ -166,30 +166,6 @@ function toggleSound() {
   soundPlaying = !soundPlaying;
 }
 
-let breathing = false;
-let breathInterval;
-
-function startBreathing() {
-  let circle = document.getElementById("breathingCircle");
-
-  if (breathing) {
-    clearInterval(breathInterval);
-    breathing = false;
-    return;
-  }
-
-  breathing = true;
-
-  breathInterval = setInterval(() => {
-    circle.style.transform = "scale(1.5)"; // inhale
-
-    setTimeout(() => {
-      circle.style.transform = "scale(1)"; // exhale
-    }, 4000);
-
-  }, 8000);
-}
-
 function startCalmMode() {
   const colors = ["#dcefe9", "#e6f2f1", "#f0f7f6"];
   let i = 0;
