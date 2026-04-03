@@ -47,9 +47,29 @@ square.addEventListener("click", () => {
 
 const wavePage = document.getElementById("wave-popup");
 const waveButton = document.getElementById("wave-button");
+const waveVideo = document.getElementById("wave-video");
+const waveAudio = document.getElementById("wave-audio");
+const waveBackButton = wavePage.querySelector(".back-button");
 
 waveButton.addEventListener("click", () => {
     wavePage.style.display = "flex";
+    waveVideo.play();
+
+    waveAudio.src = "resources/sea-audio.mp3";
+    waveAudio.load();
+    waveAudio.play();
+});
+
+waveBackButton.addEventListener("click", () => {
+    wavePage.style.display = "none";
+
+    waveVideo.pause();
+    waveVideo.currentTime = 0;
+
+    waveAudio.pause();
+    waveAudio.currentTime = 0;
+    waveAudio.src = "";
+    waveAudio.load();
 });
 
 // stretch section

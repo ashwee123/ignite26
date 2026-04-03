@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>placeholder</title>
+    <title>Destress</title>
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -30,20 +30,28 @@
         
     </div>
 
-<div id="bounce-popup" class="popup">
-
-    <button type="button" class="back-button">Go back</button>
-    <div class="square"></div>
-
-</div>
-
-        <div class="popup" id="wave-popup">
+    <div id="bounce-popup" class="popup">
 
         <button type="button" class="back-button">Go back</button>
+        <div class="square"></div>
 
     </div>
 
-        <div class="popup" id="stretch-popup">
+    <div class="popup" id="wave-popup">
+        <button type="button" class="back-button">Go back</button>
+
+        <video id="wave-video" loop muted>
+            <source src="resources/pixels.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <audio id="wave-audio" loop>
+            <source src="resources/sea-audio.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+
+    <div class="popup" id="stretch-popup">
 
         <button type="button" class="back-button">Go back</button>
 
