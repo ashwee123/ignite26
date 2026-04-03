@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calm Productivity</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<button onclick="toggleFocus()">Focus Mode</button>
+
+<button onclick="toggleSound()">Toggle Calm Sound</button>
+
+<audio id="bgSound" loop>
+  <source src="audio/bell.mp3" type="audio/mpeg">
+</audio>
+
+<div class="breathing-circle" id="breathingCircle"></div>
+<button onclick="startBreathing()">Start Breathing</button>
+
+<div class="container">
+
+  <!-- LEFT: TIMER -->
+  <div class="timer-section">
+    <h2>Gentle Timer</h2>
+
+    <div id="time">25:00</div>
+
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+
+    <div class="sound">
+      <label>
+        <input type="checkbox" id="soundToggle"> Gentle Sound
+      </label>
+    </div>
+  </div>
+
+  <!-- RIGHT: TASK LIST -->
+  <div class="task-section">
+    <h2>Tasks</h2>
+
+    <input type="text" id="taskInput" placeholder="Enter task...">
+    <input type="datetime-local" id="dueDate">
+
+    <button onclick="addTask()">Add Task</button>
+
+    <ul id="taskList"></ul>
+  </div>
+
+</div>
+
+<script src="timerTasklist.js"></script>
+</body>
+</html>
