@@ -12,25 +12,26 @@ function updateDisplay() {
 }
 
 // Set timer from preset buttons
-function setTimer(minutes) {
+function setTimer(minutes, btn) {
   pauseTimer();
-  time = minutes * 60;
+  time = Math.round(minutes * 60);
   defaultTime = time;
   updateDisplay();
 
-  // Update active preset button
-  document.querySelectorAll(".preset-btn").forEach(btn => btn.classList.remove("active"));
-  event.target.classList.add("active");
+  document.querySelectorAll(".preset-btn")
+    .forEach(b => b.classList.remove("active"));
+
+  btn.classList.add("active");
 }
 
 // Set timer from custom input
 function setCustomTimer() {
   let input = document.getElementById("customMinutes");
-  let mins = parseInt(input.value);
-  if (!mins || mins < 1) return;
+  let mins = parseFloat(input.value);
+  if (!mins || mins < 0.1) return;
 
   pauseTimer();
-  time = mins * 60;
+  time = Math.round(mins * 60);
   defaultTime = time;
   updateDisplay();
   input.value = "";
@@ -40,8 +41,17 @@ function setCustomTimer() {
 
 // Adjust time by +/- minutes (works whether running or paused)
 function adjustTime(minutes) {
-  time = Math.max(0, time + minutes * 60);
+  time = Math.max(0, time + Math.round(minutes * 60));
   updateDisplay();
+}
+
+function playBell() {
+  let bell = document.getElementById("bellSound");
+  if (bell) {
+    bell.currentTime = 0;
+    bell.volume = 0.6;
+    bell.play().catch(() => {});
+  }
 }
 
 function startTimer() {
@@ -55,15 +65,16 @@ function startTimer() {
       clearInterval(interval);
       interval = null;
 
-      if (document.getElementById("soundToggle").checked) {
-        let sound = new Audio("audio/bell.mp3");
-        sound.volume = 0.5;
-        sound.play().catch(() => {}); // catch autoplay restrictions
-      }
+      // Alarm always plays when timer ends — not optional
+      playAlarm();
 
       // Flash the timer display when done
       document.getElementById("time").classList.add("done");
       setTimeout(() => document.getElementById("time").classList.remove("done"), 3000);
+
+      setTimeout(() => {
+        resetTimer();
+      }, 4000);
     }
   }, 1000);
 }
@@ -94,11 +105,25 @@ function toggleSound() {
     audio.pause();
     btn.textContent = "🔇 Calm Sound";
   } else {
+    audio.volume = 0.3;
     audio.play().catch(() => {});
     btn.textContent = "🔊 Calm Sound";
   }
 
   soundPlaying = !soundPlaying;
+
+  audio.volume = 0;
+  audio.play().catch(() => {});
+
+  let vol = 0;
+  let fade = setInterval(() => {
+    if (vol < 0.3) {
+      vol += 0.05;
+      audio.volume = vol;
+    } else {
+      clearInterval(fade);
+    }
+  }, 100);
 }
 
 // ── FOCUS MODE ─────────────────────────────────────────────────────────────
@@ -123,7 +148,6 @@ function addTask() {
     return;
   }
 
-  // Due date is OPTIONAL — if not provided, task goes to bottom
   tasks.push({
     text: taskText,
     due: dueDate ? new Date(dueDate) : null,
@@ -132,10 +156,10 @@ function addTask() {
 
   // Sort: tasks WITH due dates first (by date), then tasks WITHOUT due dates
   tasks.sort((a, b) => {
-    if (a.due && b.due) return a.due - b.due;  // both have dates: sort by date
-    if (a.due) return -1;                       // a has date, b doesn't: a goes first
-    if (b.due) return 1;                        // b has date, a doesn't: b goes first
-    return 0;                                   // neither has date: keep order
+    if (a.due && b.due) return a.due - b.due;
+    if (a.due) return -1;
+    if (b.due) return 1;
+    return 0;
   });
 
   saveTasks();
@@ -164,7 +188,15 @@ function renderTasks() {
     checkbox.className = "task-checkbox";
     checkbox.checked = task.completed;
     checkbox.onchange = () => {
+      let wasCompleted = tasks[index].completed;
+
       tasks[index].completed = checkbox.checked;
+
+      // Only play when going from incomplete → complete
+      if (!wasCompleted && checkbox.checked) {
+        playBell();
+      }
+
       saveTasks();
       renderTasks();
     };
@@ -178,7 +210,7 @@ function renderTasks() {
     span.className = "task-text";
     span.textContent = task.text;
 
-    // Due date label (only if task has one)
+    // Due date label
     let dueLabel = document.createElement("span");
     dueLabel.className = "task-due";
 
@@ -233,6 +265,15 @@ function loadTasks() {
       due: t.due ? new Date(t.due) : null
     }));
     renderTasks();
+  }
+}
+
+function playAlarm() {
+  let alarm = document.getElementById("alarmSound");
+  if (alarm) {
+    alarm.currentTime = 0;
+    alarm.volume = 0.8;
+    alarm.play().catch(() => {});
   }
 }
 
