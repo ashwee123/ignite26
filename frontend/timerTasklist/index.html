@@ -11,8 +11,6 @@
 </head>
 <body>
 
-<button class="top-btn" onclick="goHome()">🏠 Home</button>
-
 <audio id="bgSound" loop>
   <source src="audio/calmMusic.mp3" type="audio/mpeg">
 </audio>
@@ -26,12 +24,29 @@
 </audio>
 
 <div class="top-bar">
+  <button class="top-btn" onclick="goHome()">🏠 Home</button>
   <button class="top-btn" onclick="toggleFocus()">🌿 Focus Mode</button>
   <button class="top-btn" onclick="toggleSound()" id="soundBtn">🔇 Calm Sound</button>
 </div>
 
 <div id="focusView" class="focus-view hidden">
-  <button class="focus-exit" onclick="toggleFocus()">← Back</button>
+
+  <button class="focus-back" onclick="toggleFocus()">← Back</button>
+
+  <svg class="progress-ring" width="220" height="220">
+    <circle
+      class="progress-bg"
+      cx="110"
+      cy="110"
+      r="100"
+    />
+    <circle
+      class="progress-ring-circle"
+      cx="110"
+      cy="110"
+      r="100"
+    />
+  </svg>
 
   <div class="focus-timer" id="focusTime">5:00</div>
   <div class="focus-task" id="focusTask">No tasks yet 🌿</div>

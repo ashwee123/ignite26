@@ -1,5 +1,5 @@
 function goHome() {
-  window.location.href = "../index.html";
+  window.location.href = "../../index.html";
 }
 
 // ── TIMER ─────────────────────────────────────────────────────────────────
@@ -7,6 +7,21 @@ function goHome() {
 let time = 300; // 5 minutes in seconds
 let defaultTime = 300;
 let interval = null;
+let circle = null;
+let circumference = null;
+
+function setupCircle() {
+  const circleEl = document.querySelector(".progress-ring-circle");
+  if (!circleEl) return;
+
+  const radius = circleEl.r.baseVal.value;
+  circumference = 2 * Math.PI * radius;
+
+  circleEl.style.strokeDasharray = `${circumference}`;
+  circleEl.style.strokeDashoffset = `${circumference}`;
+
+  circle = circleEl;
+}
 
 let audioUnlocked = false;
 
@@ -39,6 +54,13 @@ function updateDisplay() {
 
   let focusTime = document.getElementById("focusTime");
   if (focusTime) focusTime.textContent = formatted;
+
+  // 🔥 Update circle progress
+  if (circle && circumference) {
+    let progress = time / defaultTime;
+    let offset = circumference * (1 - progress);
+    circle.style.strokeDashoffset = offset;
+  }
 }
 
 // Set timer from preset buttons
@@ -172,6 +194,10 @@ function toggleFocus() {
 
   focusView.classList.toggle("hidden", !focusOn);
   mainUI.style.display = focusOn ? "none" : "grid";
+
+  if (focusOn) {
+    setupCircle();      // 👈 initialize circle
+  }
 
   updateFocusTask();
 }

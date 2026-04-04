@@ -438,3 +438,53 @@ body.focus-mode {
 .focus-exit:hover {
   background: rgba(255,255,255,0.2);
 }
+
+/* Focus Back Button */
+.focus-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.focus-back:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Progress Ring */
+.progress-ring {
+  transform: rotate(-90deg);
+  margin-bottom: 20px;
+}
+
+.progress-bg {
+  fill: transparent;
+  stroke: rgba(255,255,255,0.1);
+  stroke-width: 10;
+}
+
+.progress-ring-circle {
+  fill: transparent;
+  stroke: #6b9e78;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+/* Improve focus timer */
+.focus-timer {
+  font-size: 5rem;
+  font-family: "DM Serif Display";
+  margin-bottom: 12px;
+}
+
+.focus-task {
+  font-size: 1.3rem;
+  opacity: 0.85;
+}
