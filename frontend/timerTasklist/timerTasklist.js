@@ -1,3 +1,7 @@
+function goHome() {
+  window.location.href = "../index.html";
+}
+
 // ── TIMER ─────────────────────────────────────────────────────────────────
 
 let time = 300; // 5 minutes in seconds
@@ -122,27 +126,33 @@ updateDisplay();
 
 // ── SOUND ─────────────────────────────────────────────────────────────────
 
-let soundPlaying = false;
+let fadeInterval = null;
 
 function toggleSound() {
   let audio = document.getElementById("bgSound");
   let btn = document.getElementById("soundBtn");
 
   if (soundPlaying) {
+    // STOP sound
+    if (fadeInterval) clearInterval(fadeInterval);
+
     audio.pause();
+    audio.currentTime = 0;
     btn.textContent = "🔇 Calm Sound";
+
   } else {
+    // START sound with fade
     audio.volume = 0;
     audio.play().catch(() => {});
     btn.textContent = "🔊 Calm Sound";
 
     let vol = 0;
-    let fade = setInterval(() => {
+    fadeInterval = setInterval(() => {
       if (vol < 0.3) {
         vol += 0.05;
         audio.volume = vol;
       } else {
-        clearInterval(fade);
+        clearInterval(fadeInterval);
       }
     }, 100);
   }

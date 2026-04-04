@@ -196,19 +196,45 @@ body.focus-mode {
   flex: 1;
   border: none;
   border-radius: var(--radius-sm);
-  padding: 10px 8px;
+  padding: 12px 10px;
   font-family: "DM Sans", sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow);
 }
-.start-btn { background: var(--accent); color: white; }
-.start-btn:hover { background: var(--accent-dark); }
-.pause-btn { background: var(--surface-2); color: var(--text); }
-.pause-btn:hover { background: #ddd8d0; }
-.reset-btn { background: var(--surface-2); color: var(--text-muted); }
-.reset-btn:hover { color: var(--text); background: #ddd8d0; }
+
+/* START */
+.start-btn {
+  background: var(--accent);
+  color: white;
+}
+.start-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+/* PAUSE */
+.pause-btn {
+  background: var(--surface-2);
+  color: var(--text);
+}
+.pause-btn:hover {
+  background: #ddd8d0;
+  transform: translateY(-1px);
+}
+
+/* RESET */
+.reset-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 2px dashed var(--surface-2);
+}
+.reset-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
 
 .sound-label {
   display: flex;
@@ -379,12 +405,36 @@ body.focus-mode {
 }
 
 .focus-timer {
-  font-size: 6rem;
+  font-size: 8rem;
   font-family: "DM Serif Display";
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  letter-spacing: -2px;
+  animation: pulseFocus 2s infinite ease-in-out;
+}
+
+@keyframes pulseFocus {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; }
 }
 
 .focus-task {
   font-size: 1.4rem;
   opacity: 0.8;
+}
+
+.focus-exit {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+.focus-exit:hover {
+  background: rgba(255,255,255,0.2);
 }
