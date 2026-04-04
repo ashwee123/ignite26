@@ -355,7 +355,8 @@ function resetStretch() {
 }
 
 
-// THEMES
+// THEMES 
+/*
 document.addEventListener("DOMContentLoaded", () => {
   // Apply saved theme
   const savedTheme = localStorage.getItem("theme") || "1";
@@ -373,4 +374,4 @@ document.addEventListener("DOMContentLoaded", () => {
       dot.classList.add('active');
     });
   });
-});
+}); */
