@@ -1,20 +1,10 @@
 /* ── Variables ─────────────────────────────────────────────── */
 :root {
-  --bg: #f0ede8;
-  --surface: #faf8f5;
-  --surface-2: #edeae4;
-  --text: #2a2420;
-  --text-muted: #8a7d75;
-  --accent: #6b9e78;
-  --accent-light: #d4ead9;
-  --accent-dark: #4a7a57;
-  --danger: #c0392b;
-  --warning: #d4793a;
-  --ok: #5a9e6b;
-  --shadow: 0 4px 20px rgba(44, 36, 32, 0.08);
-  --radius: 18px;
-  --radius-sm: 10px;
-}
+  --bg: transparent; 
+  --text: inherit;
+  --accent: inherit;
+  --card: rgba(255, 255, 255, 0.1);
+}  
 
 /* ── Base ───────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,22 +35,37 @@ body.focus-mode {
   margin-right: auto; /* Pushes all subsequent buttons to the far right */
 }
 
+/* --- TOP BAR BUTTONS (Home, Focus, Sound) --- */
 .top-btn {
-  background: var(--surface);
-  border: 2px solid var(--surface-2);
-  border-radius: 100px;
-  padding: 8px 18px;
-  font-family: "DM Sans", sans-serif;
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: var(--shadow);
+  background: var(--card); /* Uses the theme's card color */
+  border: 2px solid var(--accent); /* Constant accent border */
+  color: var(--accent); /* Constant accent text */
+  opacity: 1; /* Ensure it's not faded */
+  font-weight: 600;
 }
+
 .top-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent-dark);
+  background: var(--accent);
+  color: var(--bg); /* Inverts colors on hover for a clear "active" feel */
+}
+
+/* --- TIMER & DATE (The big numbers and hints) --- */
+.time-display, 
+.date-hint {
+  color: var(--text) !important; /* Forces it to use the theme text color */
+}
+
+/* --- PAUSE BUTTON --- */
+.pause-btn {
+  background: var(--accent) !important;
+  color: var(--bg) !important; /* Makes Pause very high contrast */
+}
+
+/* --- MOODS / WELCOME MSG --- */
+/* Add these classes if you use them in your HTML for the 'anxious' etc words */
+.mood-text, .welcome-msg {
+  color: var(--accent);
+  font-weight: 500;
 }
 
 /* ── Layout ─────────────────────────────────────────────────── */

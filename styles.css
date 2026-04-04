@@ -159,6 +159,7 @@ body {
 }
 
 /* Grouping your specific UI words */
+/* Target the specific words/buttons you mentioned */
 .date-display, 
 .pause-btn, 
 .home-link, 
@@ -169,7 +170,24 @@ body {
 .mood-sad, 
 .mood-stressed,
 .welcome-msg {
-    color: var(--ui-text); /* This now looks at the palette's specific color */
-    transition: color 0.4s ease;
-    font-weight: 500;
+    /* 1. Use the accent color so it stands out from normal text */
+    color: var(--accent) !important; 
+    
+    /* 2. Increase opacity to 100% in case it was faded */
+    opacity: 1; 
+    
+    /* 3. Give it a bit more weight to survive background changes */
+    font-weight: 600;
+    
+    /* 4. Ensure it doesn't look like plain text */
+    letter-spacing: 0.5px;
+    
+    transition: all 0.3s ease;
+}
+
+/* Optional: Make it slightly brighter/larger on hover */
+.mood-anxious:hover, 
+.focus-mode:hover {
+    filter: brightness(1.2);
+    cursor: pointer;
 }
