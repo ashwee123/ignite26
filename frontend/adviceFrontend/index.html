@@ -10,12 +10,10 @@
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../themes.css"> <link rel="stylesheet" href="styles.css">
   </head>
 
-  <body data-palette="1"></body>
-
-  <body>    
+  <body data-palette="1">    
     <button class="home-btn" onclick="window.location.href='../../index.html'">🏠 Home</button>
     
     <div class="orb orb-1"></div>
@@ -126,15 +124,22 @@
     <script>
     document.addEventListener("DOMContentLoaded", () => {
       const dots = document.querySelectorAll('.palette-dot');
+      
+      // 1. Get the theme from localStorage
       const savedTheme = localStorage.getItem("theme") || "1";
+      
+      // 2. Apply it to the body immediately
       document.body.setAttribute("data-palette", savedTheme);
 
+      // 3. Update the UI dots to show which one is active
       dots.forEach(dot => {
         if(dot.dataset.target === savedTheme) dot.classList.add('active');
+        
         dot.addEventListener('click', () => {
           const target = dot.dataset.target;
           document.body.setAttribute('data-palette', target);
-          localStorage.setItem('theme', target);
+          localStorage.setItem('theme', target); // Save for other pages
+          
           dots.forEach(d => d.classList.remove('active'));
           dot.classList.add('active');
         });
