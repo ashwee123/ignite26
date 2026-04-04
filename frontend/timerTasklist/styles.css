@@ -361,3 +361,30 @@ body.focus-mode {
   font-style: italic;
   padding: 24px 0;
 }
+
+.focus-view {
+  position: fixed;
+  inset: 0;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.hidden {
+  display: none;
+}
+
+.focus-timer {
+  font-size: 6rem;
+  font-family: "DM Serif Display";
+  margin-bottom: 20px;
+}
+
+.focus-task {
+  font-size: 1.4rem;
+  opacity: 0.8;
+}

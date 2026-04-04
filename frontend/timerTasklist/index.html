@@ -28,6 +28,11 @@
   <button class="top-btn" onclick="toggleSound()" id="soundBtn">🔇 Calm Sound</button>
 </div>
 
+<div id="focusView" class="focus-view hidden">
+  <div class="focus-timer" id="focusTime">5:00</div>
+  <div class="focus-task" id="focusTask">No tasks yet 🌿</div>
+</div>
+
 <div class="container">
 
   <!-- LEFT: TIMER -->
@@ -64,9 +69,9 @@
 
     <!-- Controls -->
     <div class="timer-controls">
-      <button class="ctrl-btn start-btn" onclick="startTimer()">▶ Start</button>
-      <button class="ctrl-btn pause-btn" onclick="pauseTimer()">⏸ Pause</button>
-      <button class="ctrl-btn reset-btn" onclick="resetTimer()">↺ Reset</button>
+      <button onclick="unlockAudio(); startTimer()">▶ Start</button>
+      <button onclick="pauseTimer()">⏸ Pause</button>
+      <button onclick="resetTimer()">↺ Reset</button>
     </div>
 
   </div><!-- end timer-section -->

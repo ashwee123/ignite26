@@ -1,14 +1,40 @@
 // ── TIMER ─────────────────────────────────────────────────────────────────
 
-let time = 1500; // 25 minutes in seconds
-let defaultTime = 1500;
+let time = 300; // 5 minutes in seconds
+let defaultTime = 300;
 let interval = null;
+
+let audioUnlocked = false;
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+
+  const bg = document.getElementById("bgSound");
+  const bell = document.getElementById("bellSound");
+  const alarm = document.getElementById("alarmSound");
+
+  [bg, bell, alarm].forEach(a => {
+    if (a) {
+      a.volume = 0;
+      a.play().then(() => {
+        a.pause();
+        a.currentTime = 0;
+      }).catch(() => {});
+    }
+  });
+
+  audioUnlocked = true;
+}
 
 function updateDisplay() {
   let minutes = Math.floor(time / 60);
   let seconds = time % 60;
-  document.getElementById("time").textContent =
-    `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  let formatted = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+  document.getElementById("time").textContent = formatted;
+
+  let focusTime = document.getElementById("focusTime");
+  if (focusTime) focusTime.textContent = formatted;
 }
 
 // Set timer from preset buttons
@@ -48,9 +74,10 @@ function adjustTime(minutes) {
 function playBell() {
   let bell = document.getElementById("bellSound");
   if (bell) {
+    console.log("BELL TRIGGERED");
     bell.currentTime = 0;
     bell.volume = 0.6;
-    bell.play().catch(() => {});
+    bell.play().catch(err => console.log("BELL ERROR:", err));
   }
 }
 
@@ -105,25 +132,22 @@ function toggleSound() {
     audio.pause();
     btn.textContent = "🔇 Calm Sound";
   } else {
-    audio.volume = 0.3;
+    audio.volume = 0;
     audio.play().catch(() => {});
     btn.textContent = "🔊 Calm Sound";
+
+    let vol = 0;
+    let fade = setInterval(() => {
+      if (vol < 0.3) {
+        vol += 0.05;
+        audio.volume = vol;
+      } else {
+        clearInterval(fade);
+      }
+    }, 100);
   }
 
   soundPlaying = !soundPlaying;
-
-  audio.volume = 0;
-  audio.play().catch(() => {});
-
-  let vol = 0;
-  let fade = setInterval(() => {
-    if (vol < 0.3) {
-      vol += 0.05;
-      audio.volume = vol;
-    } else {
-      clearInterval(fade);
-    }
-  }, 100);
 }
 
 // ── FOCUS MODE ─────────────────────────────────────────────────────────────
@@ -132,7 +156,14 @@ let focusOn = false;
 
 function toggleFocus() {
   focusOn = !focusOn;
-  document.body.classList.toggle("focus-mode", focusOn);
+
+  const focusView = document.getElementById("focusView");
+  const mainUI = document.querySelector(".container");
+
+  focusView.classList.toggle("hidden", !focusOn);
+  mainUI.style.display = focusOn ? "none" : "grid";
+
+  updateFocusTask();
 }
 
 // ── TASKS ─────────────────────────────────────────────────────────────────
@@ -199,6 +230,7 @@ function renderTasks() {
 
       saveTasks();
       renderTasks();
+      updateFocusTask();
     };
 
     // Task info wrapper
@@ -251,6 +283,18 @@ function renderTasks() {
   });
 }
 
+function updateFocusTask() {
+  let focusTask = document.getElementById("focusTask");
+
+  let nextTask = tasks.find(t => !t.completed);
+
+  if (nextTask) {
+    focusTask.textContent = nextTask.text;
+  } else {
+    focusTask.textContent = "You're all caught up 🌿";
+  }
+}
+
 // ── PERSISTENCE ───────────────────────────────────────────────────────────
 
 function saveTasks() {
@@ -271,10 +315,14 @@ function loadTasks() {
 function playAlarm() {
   let alarm = document.getElementById("alarmSound");
   if (alarm) {
+    console.log("ALARM TRIGGERED");
     alarm.currentTime = 0;
     alarm.volume = 0.8;
-    alarm.play().catch(() => {});
+    alarm.play().catch(err => console.log("ALARM ERROR:", err));
   }
 }
 
+document.addEventListener("click", unlockAudio, { once: true });
+
 loadTasks();
+updateFocusTask();
